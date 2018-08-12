@@ -1,0 +1,27 @@
+@mixin border-1px-bot($color) {
+  position: relative;
+  &:after{
+    content: '';
+    display: inline-block;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-top: 1px solid $color;
+    @media (min-device-pixel-ratio:1.5){
+      transform: scale(.7);
+    }
+
+    @media (min-device-pixel-ratio:2){
+      transform: (.5);
+    }
+  }
+}
+
+@mixin bg-img($url) {
+  background-image: url($url + "@2x.png");
+  @media (min-device-pixel-ratio:3) {
+    background-image: url($url + "@3x.png");
+  }
+}
+
