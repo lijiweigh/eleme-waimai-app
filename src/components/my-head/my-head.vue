@@ -1,5 +1,5 @@
 <template>
-    <div class="myheader">
+    <div class="myheader" v-if="seller">
 			<div class="avatar-wrap">
 				<img width="64" height="64" :src="seller.avatar" alt="">
 			</div>
@@ -19,10 +19,10 @@
 				</div>
 			
 			</div>
-			<div class="notice-count" v-if="seller.supports"  @click="showDetail">
+			<div class="notice-count" v-if="seller.supports"  @touchstart="showDetail">
 				<span class="number">{{seller.supports.length}}个</span><span class="icon-keyboard_arrow_right"></span>
 			</div>
-			<div class="notice-wrap" @click="showDetail">
+			<div class="notice-wrap" @touchstart="showDetail">
 				<i class="notice-bg"></i>
 				<span class="text">
 					{{seller.bulletin}}
@@ -31,25 +31,26 @@
 			</div>
 			<div class="bg" :style="{'background-image':'url('+seller.avatar+')'}"></div>
 			<div class="detail-wrap" v-show="isShow">
-				<div class="detail-main">
+				<div class="detail-main clearfix">
 					
 					<div class="detail-content">
-						<p>{{seller.bulletin}}</p>
-						<p>{{seller.bulletin}}</p>
-						<p>{{seller.bulletin}}</p>
-						<p>{{seller.bulletin}}</p>
+						<h1>{{seller.name}}</h1>
+						<div class="star-wrap">
+							<Star v-if="seller.score" :size='48' :score="seller.score"></Star>
+						</div>
 						
 					</div>
 					
 				</div>
 				<div class="detail-close">
-					<i class="icon-close" @click="hideDetail"></i>
+					<i class="icon-close" @touchstart="hideDetail"></i>
 				</div>
 			</div>
     </div>
 </template>
 
 <script>
+import Star from '../common/star/star'
 export default {
 	name: "myheader",
 	data() {
@@ -64,6 +65,9 @@ export default {
 			required: true
     }
 	},
+	components: {
+		Star
+	},
 	methods: {
 		showDetail() {
 			this.isShow = true;
@@ -77,6 +81,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../common/style/mixin.scss';
+@import '../../common/style/base.scss';
 
 .myheader {
 	position: relative;
@@ -246,6 +251,19 @@ export default {
 			.detail-content{
 				padding-bottom: 64px;
 				margin-top: 64px;
+				
+				h1{
+					font-size: 16px;
+					line-height: 16px;
+					font-weight: 700;
+					text-align: center;
+				}
+
+				.star-wrap{
+					margin-top: 16px;
+					margin-bottom: 28px;
+					text-align: center;
+				}
 			}
 			
 		}
