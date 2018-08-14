@@ -30,22 +30,48 @@
 				<span class="icon-keyboard_arrow_right"></span>
 			</div>
 			<div class="bg" :style="{'background-image':'url('+seller.avatar+')'}"></div>
-			<div class="detail-wrap" v-show="isShow">
-				<div class="detail-main clearfix">
-					
-					<div class="detail-content">
-						<h1>{{seller.name}}</h1>
-						<div class="star-wrap">
-							<Star v-if="seller.score" :size='48' :score="seller.score"></Star>
+
+		<transition name="detail-wrap">
+				<div class="detail-wrap" v-show="isShow">
+					<div class="detail-main clearfix">
+						
+						<div class="detail-content">
+							<h1>{{seller.name}}</h1>
+							<div class="star-wrap">
+								<Star v-if="seller.score" :size='48' :score="seller.score"></Star>
+							</div>
+							
+							<div class="title">
+								<div class="line"></div>
+								<div class="text">优惠信息</div>
+								<div class="line"></div>
+							</div>
+
+							<div class="discount-msg">
+								<div class="msg" v-for="(item, index) in seller.supports" :key="index">
+									<span class="discount-msg-bg" :class="[classlist[index]]"></span>
+									<span class="discount-msg-text">{{item.description}}</span>
+								</div>
+							</div>
+
+								<div class="title">
+									<div class="line"></div>
+									<div class="text">商家公告</div>
+									<div class="line"></div>
+								</div>
+
+								<div class="detail-bulletin">
+									{{seller.bulletin}}
+								</div>
+
 						</div>
 						
 					</div>
-					
+					<div class="detail-close">
+						<i class="icon-close" @touchstart="hideDetail"></i>
+					</div>
 				</div>
-				<div class="detail-close">
-					<i class="icon-close" @touchstart="hideDetail"></i>
-				</div>
-			</div>
+		</transition>
     </div>
 </template>
 
@@ -56,7 +82,7 @@ export default {
 	data() {
 		return {
 			isShow: false,
-			classlist: ['decrease_1','discount_1','special_1','invoice_1','guarantee_1']
+			classlist: ['decrease_2','discount_2','special_2','invoice_2','guarantee_2']
 		}
 	},
   props: {
@@ -82,6 +108,8 @@ export default {
 <style lang="scss" scoped>
 @import '../../common/style/mixin.scss';
 @import '../../common/style/base.scss';
+
+$classList_2: 'decrease_2','discount_2','special_2','invoice_2','guarantee_2'  ;
 
 .myheader {
 	position: relative;
@@ -231,6 +259,15 @@ export default {
 
 		}
 	}
+	.detail-wrap-enter,
+	.detail-wrap-leave-to{
+		opacity: 0;
+	}
+
+	.detail-wrap-enter-active,
+	.detail-wrap-leave-active{
+		transition: .3s;
+	}
 
 	.detail-wrap{
 		position: fixed;
@@ -240,10 +277,9 @@ export default {
 		left: 0;
 		top: 0;
 		background: rgba(7, 17, 27, .8);
-		// filter: blur(10px);
-		// backdrop-filter: blur(10px);
 		color: #fff;
 		overflow: auto;
+		
 
 		.detail-main{
 			overflow: hidden;
@@ -263,6 +299,65 @@ export default {
 					margin-top: 16px;
 					margin-bottom: 28px;
 					text-align: center;
+				}
+
+				.title{
+					width: 80%;
+					margin: 28px auto 24px;
+					display: flex;
+					&>div{
+						display: inline-block;
+					}
+					.line{
+						flex: 1;
+						height: 0;
+						border-top: 1px solid rgba(255, 255, 255, .2);
+						margin-top: 8px;
+					}
+					.text{
+						margin: 0 12px;
+						font-weight: bold;
+					}
+				}
+
+				.discount-msg{
+					width: 75%;
+					margin: 0 auto;
+
+					.msg{
+						margin-bottom: 12px;
+					}
+
+					.discount-msg-bg{
+						display: inline-block;
+						width: 16px;
+						height: 16px;
+						background-size: 16px 16px;
+						margin-right: 6px;
+						vertical-align: middle;
+					}
+
+					.discount-msg-text{
+						display: inline-block;
+						font-size: 12px;
+						line-height: 12px;
+						font-weight: 200;
+						vertical-align: middle;
+					}
+
+					@each $class in $classList_2 {
+						.#{$class}{
+							@include bg-img($class);
+						}
+					}
+				}
+
+				.detail-bulletin{
+					width: 75%;
+					margin: 0 auto;
+					font-size: 12px;
+					line-height: 24px;
+					font-weight: 200;
 				}
 			}
 			
