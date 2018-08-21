@@ -18,6 +18,63 @@
   }
 }
 
+@mixin border-1px-left($color) {
+  position: relative;
+  &:before{
+    content: '';
+    display: inline-block;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-left: 1px solid $color;
+    @media (min-device-pixel-ratio:1.5){
+      transform: scale(.7);
+    }
+
+    @media (min-device-pixel-ratio:2){
+      transform: (.5);
+    }
+  }
+}
+
+@mixin border-1px($color,$dir) {
+  position: relative;
+  &:before{
+    content: '';
+    display: inline-block;
+
+    @if $dir == left{
+       height: 100%;
+       left: 0;
+        bottom: 0;
+    } @else if $dir == right{
+       height: 100%;
+        right: 0;
+        bottom: 0;
+    } @else if $dir == top {
+      width: 100%;
+       left: 0;
+        top: 0;
+    } @else {
+      width: 100%;
+       left: 0;
+        bottom: 0;
+    }
+
+    position: absolute;
+    
+    border-#{$dir}: 1px solid $color;
+    @media (min-device-pixel-ratio:1.5){
+      transform: scale(.7);
+    }
+
+    @media (min-device-pixel-ratio:2){
+      transform: (.5);
+    }
+  }
+}
+
 @mixin bg-img($url) {
   background-image: url($url + "@2x.png");
   @media (min-device-pixel-ratio:3) {
