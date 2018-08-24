@@ -38,37 +38,9 @@
 			</div>
 	    </div>
 
-	    <div class="shopping-cart-wrap">
-	    	<div class="shopping-cart">
-	    		<div class="detail">
-	    			<span class="cart">
-	    				<i class="icon-shopping_cart" v-show="totalMoney === 0"></i>
-	    				<i class="icon-shopping_cart" v-show="totalMoney" :style="{'backgroundColor':'#00a0dc','color':'#fff'}"></i>
-	    				<i class="foodCount" v-show="selectedFoods.length">{{selectedFoods.length}}</i>
-	    			</span>
-	    			<span class="money" v-show="totalMoney === 0">
-	    				&yen;{{totalMoney}}
-	    			</span>
-	    			<span class="money" v-show="totalMoney" :style="{'color':'#fff'}">
-	    				&yen;{{totalMoney}}
-	    			</span>
-	    			<span class="delivery-pay">
-	    				另需配送费&yen;{{seller.deliveryPrice}}
-	    			</span>
-	    		</div>
-	    		<div class="pay-btn" :class="{'gopay':isGoPay}">
-	    			<span v-show="totalMoney === 0">
-	    				&yen;{{seller.minPrice}}起送
-	    			</span>
-	    			<span v-show="totalMoney > 0 && totalMoney < seller.minPrice">
-	    				还差&yen;{{seller.minPrice - totalMoney}}起送
-	    			</span>
-	    			<span v-show="totalMoney >= seller.minPrice">
-	    				去支付
-	    			</span>
-	    		</div>
-	    	</div>
-	    </div>
+	    <ShopCart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice"
+	    :selectedFoods="selectedFoods" :totalMoney="totalMoney">
+	    </ShopCart>
 
     </div>
 </template>
@@ -77,11 +49,13 @@
 
 import BScroll from 'better-scroll'
 import CartControl from '@/components/common/cartControl'
+import ShopCart from "@/components/goods/shopCart"
 
 export default {
     name: 'goods',
     components: {
-    	CartControl
+    	CartControl,
+    	ShopCart
     },
     data () {
     	return {
@@ -134,14 +108,8 @@ export default {
     		})
 
     		return total;
-    	},
-    	isGoPay () {
-    		if( this.totalMoney >= this.seller.minPrice ) {
-    			return true;
-    		} 
-
-    		return false;
     	}
+    	
     },
     methods: {
     	toggleSide (index,event) {
@@ -335,102 +303,6 @@ export default {
 	}
 }
 
-.shopping-cart{
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	display: flex;
-	height: 56px;
-	// line-height: 56px;
-	width: 100%;
-	background-color: #141d27;
-	// background-color: #fff;
 
-	.detail{
-		flex: 1;
-		font-size: 0;
-
-		.cart {
-			position: relative;
-			bottom: 8px;
-			left: 18px;
-			display: inline-block;
-			width: 56px;
-			height: 56px;
-			box-sizing: border-box;
-			border-radius: 50%;
-			background-color: #141d27;
-			padding: 6px;
-			
-			.foodCount {
-				position: absolute;
-				right: 1px;
-				top: 1px;
-				width: 20px;
-				height: 16px;
-				font-size: 10px;
-				line-height: 16px;
-				text-align: center;
-				border-radius: 6px;
-				background-color: red;
-				font-style: normal;
-				font-weight: bold;
-				color: #fff;
-			}
-
-			.icon-shopping_cart{
-				display: inline-block;
-				background-color: rgba(255,255,255,.4);
-				// background-color: #ccc;
-				border-radius: 50%;
-				width: 44px;
-				height: 44px;
-				color: rgba(255,255,255,.4);
-				font-size: 24px;
-				line-height: 44px;
-				text-align: center;
-
-			}
-		}
-
-		.money,
-		.delivery-pay{
-			display: inline-block;
-			box-sizing: border-box;
-			font-weight: 700;
-			color: rgba(255,255,255,.4);
-			
-		}
-
-		.money {
-			bottom: 5px;
-			margin: 12px;
-			padding: 6px 12px;
-			font-size: 18px;
-			@include border-1px(rgba(255,255,255,.1),right);
-		}
-
-		.delivery-pay{
-			position:relative;
-			bottom: 5px;
-			font-size: 16px;
-		}
-	}
-
-	.pay-btn{
-		flex: 0 0 105px;
-		color: rgba(255,255,255,.4);
-		font-size: 18px;
-		font-weight: 700;
-		line-height: 56px;
-		text-align: center;
-		background-color: rgba(200,200,200,.4);
-	}
-
-	.gopay{
-		background-color: #00b43c;
-		color: #fff;
-	}
-}
 </style>
 

@@ -19,7 +19,9 @@ export default {
 		}
 	},
 	methods: {
+
 		increase (event) {
+			console.log(123)
 			if(!event._constructed) {
 				return;
 			}
