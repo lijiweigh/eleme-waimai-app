@@ -59,7 +59,7 @@
 
 <script>
 import BScroll from 'better-scroll'
-import CartControl from "@/components/common/cartControl"
+import CartControl from "@/components/common/cartControl/cartControl"
 
 export default {
 	name: "shopcart",
@@ -126,6 +126,10 @@ export default {
 			alert(`支付${this.totalMoney}元！`);
 			this.selectedFoods.forEach( food => food.count = 0 );
 			this.fold = true;
+		},
+		testRef () {
+			console.log("调用testref");
+			console.log(this.fold);
 		}
 	}
 
@@ -314,7 +318,7 @@ export default {
 }
 
 .fade-list-enter,
-.fade-list-leave-active {
+.fade-list-leave-to {
 	// transform: translateY(0) !important;
 	transform: translate3d(0,0,0);
 }

@@ -1,12 +1,12 @@
 <template>
 	<div class="cart-control">
 		<transition name='decrease'>
-			<div class="decrease icon-remove_circle_outline" v-show='food.count' @click='decrease'></div>
+			<div class="decrease icon-remove_circle_outline" v-show='food.count' @click.stop='decrease'></div>
 		</transition>
 		<div class="count" v-show='food.count'>
 			{{food.count}}
 		</div>
-		<div class="increase icon-add_circle" @click="increase"></div>
+		<div class="increase icon-add_circle" @click.stop="increase"></div>
 	</div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
 	methods: {
 
 		increase (event) {
-			console.log(123)
+			// console.log(123)
 			if(!event._constructed) {
 				return;
 			}

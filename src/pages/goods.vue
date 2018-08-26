@@ -13,7 +13,7 @@
 					<li class="content-item" v-for="(goods, index) in goodsList" :key='index' ref="contentItemList">
 						<h2 class="item-header">{{goods.name}}</h2>
 						<ul class="child-content">
-							<li class="child-item" v-for="(food, index) in goods.foods" :key='index'>
+							<li class="child-item" v-for="(food, index) in goods.foods" :key='index'  @click="toggleDetail(food, $event)">
 								<img class="child-item-icon" :src="food.icon">
 								<div class="child-item-content">
 									<h2 class="child-header">{{food.name}}</h2>
@@ -39,8 +39,10 @@
 	    </div>
 
 	    <ShopCart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice"
-	    :selectedFoods="selectedFoods" :totalMoney="totalMoney">
+	    :selectedFoods="selectedFoods" :totalMoney="totalMoney" ref="shopCart">
 	    </ShopCart>
+		
+		<GoodsDetail :food="selectedFood" ref="goodsDetail"></GoodsDetail>
 
     </div>
 </template>
@@ -48,19 +50,21 @@
 <script>
 
 import BScroll from 'better-scroll'
-import CartControl from '@/components/common/cartControl'
+import CartControl from '@/components/common/cartControl/cartControl'
 import ShopCart from "@/components/goods/shopCart"
+import GoodsDetail from "@/components/goods/goodsDetail"
 
 export default {
     name: 'goods',
     components: {
     	CartControl,
-    	ShopCart
+		ShopCart,
+		GoodsDetail
     },
     data () {
     	return {
     		goodsList: [],
-    		
+    		selectedFood: {},
     		classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee'],
     		listHeight: [],
     		curHeight: 0
@@ -112,6 +116,13 @@ export default {
     	
     },
     methods: {
+		toggleDetail (food,event) {
+			if( !event._constructed ) {
+				return;
+			}
+			this.selectedFood = food;
+			this.$refs.goodsDetail.toggleShow(event);
+		},
     	toggleSide (index,event) {
     		if (!event._constructed) {
     			return;
@@ -171,7 +182,8 @@ export default {
 		})
     },
     mounted () {
-    	
+		// console.log(this.$refs);
+		// this.$refs.shopCart.testRef();
     }
 }
 </script>
