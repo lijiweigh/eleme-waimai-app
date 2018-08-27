@@ -24,7 +24,9 @@
                             &yen;{{food.price}}
                         </span>
                         <span class="old" v-if="food.oldPrice">
-                            &yen;{{food.oldPrice}}
+                           <del>
+                                &yen;{{food.oldPrice}}
+                           </del>
                         </span>
                     </div>
                     <div class="add">
@@ -44,7 +46,12 @@
                     <p class="info">
                         {{food.info}}
                     </p>
-                   
+                </div>
+                <div class="ratingListWrap">
+                     <h2 class="title">
+                        商品评价
+                    </h2>
+                    <RatingList :ratings="this.food.ratings"></RatingList>
                 </div>
                 
             </div>
@@ -61,40 +68,105 @@
 import BScroll from "better-scroll";
 import CartControl from "@/components/common/cartControl/cartControl";
 import BreakLine from "@/components/common/breakLine"
+import Rating from "@/components/goods/rating"
+import RatingList from "@/components/common/ratingList"
 
 export default {
   name: "goodsDetail",
   data() {
     return {
-      showDetail: false
+      showDetail: false,
+      selectedType: 2,
+      POSITIVE: 0,
+      NAGETIVE: 1,
+      ALL: 2,
+      seeIfContent: true
     };
   },
   components: {
     CartControl,
-    BreakLine
+    BreakLine,
+    Rating,
+    RatingList
   },
   props: {
     food: {
       type: Object
     }
   },
+//   computed: {
+//       curRating () {
+//           if(this.selectedType === this.ALL) {
+//               return this.seeIfContent ? this.ratingFilter(this.allRatings) : this.allRatings;
+//           } else if (this.selectedType === this.posRatings) {
+//               return this.seeIfContent ? this.ratingFilter(this.posRatings) : this.posRatings;
+//           } else {
+//               return this.seeIfContent ? this.ratingFilter(this.nagRatings) : this.nagRatings;
+//           }
+//       },
+//       allRatings () {
+//           return this.food.ratings ? this.food.ratings : [];
+//       },
+//       posRatings () {
+//           let ratings = [];
+//           this.food.ratings.forEach(rating => {
+//               if ( rating.rateType === this.POSITIVE ) {
+//                   ratings.push(rating);
+//               }
+//           });
+//           return ratings;
+//       },
+//       nagRatings () {
+//            let ratings = [];
+//           this.food.ratings.forEach(rating => {
+//               if ( rating.rateType === this.NAGETIVE ) {
+//                   ratings.push(rating);
+//               }
+//           });
+//           return ratings;
+//       }
+    
+//   },
   methods: {
+    //   ratingFilter (ratings) {
+    //       return ratings.filter( rating => rating.text);
+    //   },
+    //   toggleSee () {
+    //       this.seeIfContent = !this.seeIfContent;
+    //       this.$nextTick(() => {
+    //         if (! this.scroll ) {
+               
+    //             this.scroll = new BScroll(this.$refs.goodsDetail, {
+    //                 click: true
+    //             });
+    //         } else {
+                
+    //             this.scroll.refresh();
+    //         }
+        
+    //     });
+
+    //   },
+    //   toggleType (type) {
+    //       this.selectedType = type;
+    //   },
     toggleShow(event) {
-    //     console.log(event)
-    //     console.log(11)
-    //   if (!event._constructed) {
-    //     return;
-    //   }
-    // console.log(222)
+        // this.seeIfContent = !this.seeIfContent;
+        
       this.showDetail = !this.showDetail;
+        if(this.showDetail) {
+            if (!this.seeIfContent) {
+                this.seeIfContent = true;
+            }
+        }
       this.$nextTick(() => {
         if (! this.scroll ) {
-            console.log("new")
+           
             this.scroll = new BScroll(this.$refs.goodsDetail, {
                 click: true
             });
         } else {
-            console.log("refresh")
+           
             this.scroll.refresh();
         }
      
@@ -225,6 +297,15 @@ export default {
             color: rgb(77, 85, 93);
         }
     }
+
+    .title {
+        padding-left: 18px;
+        font-weight: bold;
+    }
+
+
+   
+
   }
 
   .icon-arrow_lift {

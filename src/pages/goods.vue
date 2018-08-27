@@ -3,7 +3,7 @@
     	<div class="goods">
 			<div class="side-wrap" ref='sideWrap'>
 				<ul class="side">
-					<li class="side-item" v-for="(goods, index) in goodsList" :class="{'current': currentIndex === index}" @click="toggleSide(index,$event)" ref="sideItemList">
+					<li class="side-item" v-for="(goods, index) in goodsList" :key="index" :class="{'current': currentIndex === index}" @click="toggleSide(index,$event)" ref="sideItemList">
 						<span class="icon" :class="classMap[goods.type]">{{goods.name}}</span>
 					</li>
 				</ul>
@@ -20,11 +20,11 @@
 									<div class="description">{{food.description}}</div>
 									<div>
 										<span class="sellCount">月售{{food.sellCount}}份</span>
-										<span class="rating">{{food.rating}}%</span>
+										<span class="rating" v-if="food.rating">{{food.rating}}%</span>
 									</div>
 									<div>
 										<span class="price">&yen;{{food.price}}</span>
-										<span class="oldPrice" v-if="food.oldPrice">&yen;{{food.oldPrice}}</span>
+										<span class="oldPrice" v-if="food.oldPrice"><del>&yen;{{food.oldPrice}}</del></span>
 									</div>
 									<div class="cart-control-wrap">
 										<CartControl :food='food'></CartControl>
@@ -38,9 +38,9 @@
 			</div>
 	    </div>
 
-	    <ShopCart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice"
+	    <!-- <ShopCart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice"
 	    :selectedFoods="selectedFoods" :totalMoney="totalMoney" ref="shopCart">
-	    </ShopCart>
+	    </ShopCart> -->
 		
 		<GoodsDetail :food="selectedFood" ref="goodsDetail"></GoodsDetail>
 
@@ -51,19 +51,19 @@
 
 import BScroll from 'better-scroll'
 import CartControl from '@/components/common/cartControl/cartControl'
-import ShopCart from "@/components/goods/shopCart"
+// import ShopCart from "@/components/goods/shopCart"
 import GoodsDetail from "@/components/goods/goodsDetail"
 
 export default {
     name: 'goods',
     components: {
     	CartControl,
-		ShopCart,
+		// ShopCart,
 		GoodsDetail
     },
     data () {
     	return {
-    		goodsList: [],
+    		// goodsList: [],
     		selectedFood: {},
     		classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee'],
     		listHeight: [],
@@ -73,7 +73,10 @@ export default {
     props: {
     	seller: {
     		type: Object
-    	}
+        },
+        goodsList: {
+            type: Array
+        }
     },
     computed: {
     	currentIndex () {
@@ -132,7 +135,8 @@ export default {
     		this.contentBS.scrollToElement(contentItemList[index],300);
     	},
     	initListHeight () {
-    		let h = 0;
+            let h = 0;
+            
     		const list = this.$refs.contentItemList;
     		
     		this.listHeight.push(h);
@@ -164,13 +168,17 @@ export default {
     			}
     		});
 
-    		this.initListHeight();
+    		
+             setTimeout(() => {
+                 this.initListHeight()
+             }, 20);
+           
     	}
     },
     created (){
-    	this.$http.get('/api/goods').then( (response) => {
-			if( response.data.errno === 0) {
-				this.goodsList = response.data.data;
+    	// this.$http.get('/api/goods').then( (response) => {
+		// 	if( response.data.errno === 0) {
+		// 		this.goodsList = response.data.data;
 
 				this.$nextTick(() => {
 		    		
@@ -178,8 +186,8 @@ export default {
 
 		    	});
 
-			}
-		})
+		// 	}
+		// })
     },
     mounted () {
 		// console.log(this.$refs);

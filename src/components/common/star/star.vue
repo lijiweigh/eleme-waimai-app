@@ -70,7 +70,7 @@ export default {
       width: 15px;
       height: 15px;
       margin-right: 6px;
-      background-size: 20px 20px;
+      background-size: 15px 15px;
       background-repeat: no-repeat;
       &.star_half{
         @include bg-img('star36_half');
@@ -86,7 +86,7 @@ export default {
       width: 10px;
       height: 10px;
       margin-right: 3px;
-      background-size: 20px 20px;
+      background-size: 10px 10px;
       background-repeat: no-repeat;
       &.star_half{
         @include bg-img('star24_half');
