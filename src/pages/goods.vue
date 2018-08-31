@@ -3,7 +3,8 @@
     	<div class="goods">
 			<div class="side-wrap" ref='sideWrap'>
 				<ul class="side">
-					<li class="side-item" v-for="(goods, index) in goodsList" :key="index" :class="{'current': currentIndex === index}" @click="toggleSide(index,$event)" ref="sideItemList">
+					<li class="side-item" v-for="(goods, index) in goodsList" :key="index" :class="{'current': currentIndex === index}" 
+                    @click="toggleSide(index,$event)" ref="sideItemList">
 						<span class="icon" :class="classMap[goods.type]">{{goods.name}}</span>
 					</li>
 				</ul>
@@ -94,28 +95,28 @@ export default {
 
     		return 0;
 
-    	},
-    	selectedFoods () {
-    		let selected = [];
-
-    		this.goodsList.forEach((goods) => {
-    			goods.foods.forEach((food) => {
-    				if(food.count) {
-    					selected.push(food);
-    				}
-    			})
-    		})
-
-    		return selected;
-    	},
-    	totalMoney () {
-    		let total = 0;
-    		this.selectedFoods.forEach(food => {
-    			total += food.price * food.count;
-    		})
-
-    		return total;
     	}
+    	// selectedFoods () {
+    	// 	let selected = [];
+
+    	// 	this.goodsList.forEach((goods) => {
+    	// 		goods.foods.forEach((food) => {
+    	// 			if(food.count) {
+    	// 				selected.push(food);
+    	// 			}
+    	// 		})
+    	// 	})
+
+    	// 	return selected;
+    	// },
+    	// totalMoney () {
+    	// 	let total = 0;
+    	// 	this.selectedFoods.forEach(food => {
+    	// 		total += food.price * food.count;
+    	// 	})
+
+    	// 	return total;
+    	// }
     	
     },
     methods: {
@@ -168,7 +169,6 @@ export default {
     			}
     		});
 
-    		
              setTimeout(() => {
                  this.initListHeight()
              }, 20);
@@ -292,7 +292,9 @@ export default {
 			margin: 2px 0 8px;
 		}
 
-		.description, .sellCount, .rating {
+        .description, 
+        .sellCount, 
+        .rating {
 			color: rgb(147,153,159);
 			font-size: 10px;
 			line-height: 10px;

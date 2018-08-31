@@ -40,15 +40,15 @@
 
 @mixin border-1px($color,$dir) {
   position: relative;
-  &:before{
+  &:before {
     content: '';
     display: inline-block;
 
-    @if $dir == left{
+    @if $dir == left {
        height: 100%;
        left: 0;
         bottom: 0;
-    } @else if $dir == right{
+    } @else if $dir == right {
        height: 100%;
         right: 0;
         bottom: 0;
